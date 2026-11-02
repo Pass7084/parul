@@ -7,10 +7,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * php artisan db:seed  -> fills the students table with sample rows.
-     * (Fictional names. Change them freely.)
-     */
     public function run(): void
     {
         $rows = [
@@ -20,17 +16,20 @@ class DatabaseSeeder extends Seeder
             ['CS23-04', 'Arjun Das',      6.80],
             ['CS23-05', 'Meera Nair',     8.05],
             ['CS23-06', 'Joel Thomas',    7.40],
+            ['50', 'Parul Sharma',        7.21],
         ];
 
         foreach ($rows as [$roll, $name, $cgpa]) {
-            Student::create([
-                'roll_no'    => $roll,
-                'name'       => $name,
-                'email'      => strtolower(str_replace(' ', '.', $name)).'@example.com',
-                'department' => 'CSE',
-                'semester'   => 7,
-                'cgpa'       => $cgpa,
-            ]);
+            Student::updateOrCreate(
+                ['roll_no' => $roll],
+                [
+                    'name'       => $name,
+                    'email'      => strtolower(str_replace(' ', '.', $name)) . '@example.com',
+                    'department' => 'CSE',
+                    'semester'   => 7,
+                    'cgpa'       => $cgpa,
+                ]
+            );
         }
     }
 }
